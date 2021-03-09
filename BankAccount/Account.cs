@@ -9,9 +9,8 @@ namespace BankAccount
     /// <summary>
     /// Represents a single checking account
     /// </summary>
-    class Account
+    public class Account
     {
-        private double _balance;
 
         /// <summary>
         /// Deposite the amount in the bank account
@@ -20,24 +19,36 @@ namespace BankAccount
         /// <param name="amt">The amount to deposite</param>
         public double Deposite(double amt)
         {
-            _balance += amt;
-            return _balance;
+            if(amt >= 10000)
+            {
+                throw new ArgumentException($"{nameof(amt)} must be smaller than 10,000");
+            }
+
+            if(amt <= 0)
+            {
+                throw new ArgumentException($"{nameof(amt)} must be a positive value");
+            }
+
+            Balance += amt;
+            return Balance;
         }
 
         /// <summary>
         /// Get the current balance
         /// </summary>
-        public double Balance
-        {
-            get
-            {
-                return _balance;
-            }
-        }
+        public double Balance { get; private set; }
 
         public void Withdraw(double amt)
         {
-
+            if(amt <= 0)
+            {
+                throw new ArgumentException($"{nameof(amt)} must be a positive value");
+            }
+            if(amt > Balance)
+            {
+                throw new ArgumentException("You cannot withdraw more than the current balance");
+            }
+            Balance -= amt;
         }
     }
 }
