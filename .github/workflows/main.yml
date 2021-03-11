@@ -27,18 +27,21 @@ jobs:
 
       - name: Setup MSBuild Path
         uses: warrenbuckley/Setup-MSBuild@v1
-      
+
       - name: Setup NuGet
-        uses: NuGet/Setup-nuget@v1.0.2
+        uses: NuGet/setup-nuget@v1.0.2
+
+      - name: Restore NuGet Packages
+        run: nuget restore BankAccount.sln
       # Compile app in release mode
       - name: Build App
         run: msbuild BankAccount.sln /p:Configuration=Release
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
-        with: 
+        with:
           name: BankAccountApp
-          path: bin\Release\Publish
+          path: bin\Release
 
 
 
