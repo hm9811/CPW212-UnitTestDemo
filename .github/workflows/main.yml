@@ -26,10 +26,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup MSBuild Path
-        uses: warrenbuckley/Setup-MSBuild@v1
+        uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.2
+        uses: NuGet/setup-nuget@v1.0.5
 
       - name: Restore NuGet Packages
         run: nuget restore BankAccount.sln
@@ -37,11 +37,17 @@ jobs:
       - name: Build App
         run: msbuild BankAccount.sln /p:Configuration=Release
 
+      - name: Set up VSTest
+        uses: Malcolmnixon/Setup-VSTest@v4
+
+      - name: Run VSTest
+        run: vstest.console BankAccountTests\bin\Release\BankAccountTests.dll
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: BankAccountApp
-          path: bin\Release
+          path: BankAccount\bin\Release
 
 
 
